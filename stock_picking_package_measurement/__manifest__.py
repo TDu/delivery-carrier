@@ -1,0 +1,21 @@
+{
+    "name": "Stock Picking Package Measurment",
+    "summary": """
+    Allow the configuration of which package measurements are required on the Put In Pack action.
+    """,
+    "version": "14.0.1.0.0",
+    "license": "AGPL-3",
+    "author": "Camptocamp, Odoo Community Association (OCA)",
+    "website": "https://github.com/OCA/delivery-carrier",
+    "depends": [
+        "stock",
+        "delivery",
+        # OCA/stock-logistics-workflow
+        "stock_quant_package_dimension",
+    ],
+    "data": [
+        "views/delivery_carrier.xml",
+        "wizard/choose_delivery_package.xml",
+    ],
+    "installable": True,
+}
