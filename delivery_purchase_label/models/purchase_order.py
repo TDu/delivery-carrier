@@ -8,6 +8,19 @@ from odoo.exceptions import UserError
 class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
+    delivery_label_picking_id = fields.Many2one(
+        "stock.picking",
+        "Delivery Label Picking",
+        store=True,
+        readonly=True,
+    )
+
+    def action_rfq_send(self):
+        # Should be done only if the email is really being sent !
+        if not self.delivery_label_picking_id:
+            self._generate_purchase_delivery_label()
+        return super().action_rfq_send()
+
     def button_send_label(self):
         self._generate_purchase_delivery_label()
         # TODO change the po state
@@ -49,7 +62,8 @@ class PurchaseOrder(models.Model):
         for move in moves:
             move.quantity_done = move.product_uom_qty
         picking._action_done()
-        order.picking_ids = [(4, picking.id)]
+        # order.picking_ids = [(4, picking.id)]
+        order.delivery_label_picking_id = picking
         picking.message_post_with_view(
             "mail.message_origin_link",
             values={"self": picking, "origin": self},

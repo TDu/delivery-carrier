@@ -43,7 +43,7 @@ class TestDeliveryPurchaseLabel(SavepointCase):
     def test_transfer_label_generated(self):
         self.carrier.purchase_label_picking_type = self.picking_type
         self.order._generate_purchase_delivery_label()
-        label_picking = self.order.picking_ids
+        label_picking = self.order.delivery_label_picking_id
         self.assertEqual(label_picking.picking_type_id, self.picking_type)
         self.assertEqual(label_picking.state, "done")
 
@@ -51,3 +51,6 @@ class TestDeliveryPurchaseLabel(SavepointCase):
         self.carrier.purchase_label_picking_type = False
         self.order._generate_purchase_delivery_label()
         self.assertFalse(self.order.picking_ids)
+
+    def test_add_label_attachment_to_email(self):
+        pass
